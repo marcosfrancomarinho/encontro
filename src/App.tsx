@@ -127,7 +127,7 @@ export const App: React.FC = () => {
 
             <p className="text-sm text-gray-500 mt-3 flex items-center gap-2">
               <FaArrowRight className="text-gray-400" />
-              Esse esforço todo merecia um sim.
+              Sem pressão... mas seria massa 😄.
             </p>
           </>
         )}

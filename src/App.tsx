@@ -141,7 +141,7 @@ export const App: React.FC = () => {
 
           {!accepted && (
             <>
-              <p className='text-lg font-medium text-gray-700'>Quer sair comigo?</p>
+              <p className='text-lg font-medium text-gray-700'>Gostaria de sair comigo?</p>
 
               <div className='flex gap-4 mt-4'>
                 <button

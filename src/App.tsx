@@ -35,7 +35,6 @@ export const App: React.FC = () => {
     if (!btn) return;
 
     const rect = btn.getBoundingClientRect();
-
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
@@ -57,9 +56,21 @@ export const App: React.FC = () => {
     }
   };
 
-  const handleAccept = () => {
+  const handleAccept = async () => {
     setAccepted(true);
     setShowConfetti(true);
+    try {
+      const response = await fetch('https://encontro-backend-aysb.onrender.com/notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: 'marcosmarinho19998@gmail.com', subject: 'marcosmarinho19998@gmail.com' }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to save response');
+      }
+    } catch (error) {
+      console.error('Error saving response:', error);
+    }
   };
 
   const handleBack = () => {
@@ -70,29 +81,18 @@ export const App: React.FC = () => {
   return (
     <div
       onMouseMove={handleMouseMove}
-      className="min-h-screen flex items-center justify-center bg-linear-to-br from-rose-100 via-red-100 to-pink-200 p-4"
+      className='min-h-screen flex items-center justify-center bg-linear-to-br from-rose-100 via-red-100 to-pink-200 p-4'
     >
       {/* 🎉 Confete (fica até clicar em voltar) */}
-      {showConfetti && (
-        <Confetti
-          width={size.width}
-          height={size.height}
-          numberOfPieces={350}
-          recycle={true}
-          gravity={0.25}
-        />
-      )}
+      {showConfetti && <Confetti width={size.width} height={size.height} numberOfPieces={350} recycle={true} gravity={0.25} />}
 
-      <div className="w-full max-w-md bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-6 text-center border border-white/40">
-
+      <div className='w-full max-w-md bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-6 text-center border border-white/40'>
         {/* Header (esconde após aceitar) */}
         {!accepted && (
-          <div className="flex flex-col items-center gap-2">
-            <h1 className="text-2xl font-semibold text-gray-800">
-              Oii {greeting()}, Geovanna
-            </h1>
+          <div className='flex flex-col items-center gap-2'>
+            <h1 className='text-2xl font-semibold text-gray-800'>Oii {greeting()}, Geovanna</h1>
 
-            <div className="flex gap-2 text-red-500 text-2xl animate-pulse">
+            <div className='flex gap-2 text-red-500 text-2xl animate-pulse'>
               <FaHeart />
               <FaHeart />
               <FaHeart />
@@ -103,14 +103,12 @@ export const App: React.FC = () => {
         {/* Conteúdo */}
         {!accepted && (
           <>
-            <p className="text-lg font-medium text-gray-700">
-              Quer sair comigo?
-            </p>
+            <p className='text-lg font-medium text-gray-700'>Quer sair comigo?</p>
 
-            <div className="flex gap-4 mt-4">
+            <div className='flex gap-4 mt-4'>
               <button
                 onClick={handleAccept}
-                className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl shadow-md hover:scale-110 active:scale-95 transition-all duration-200"
+                className='flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-xl shadow-md hover:scale-110 active:scale-95 transition-all duration-200'
               >
                 <FaCheck />
                 Sim
@@ -118,15 +116,15 @@ export const App: React.FC = () => {
 
               <button
                 ref={noButtonRef}
-                className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-800 px-6 py-2 rounded-xl shadow-md transition-transform duration-200 ease-out"
+                className='flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-800 px-6 py-2 rounded-xl shadow-md transition-transform duration-200 ease-out'
               >
                 <FaTimes />
                 Não
               </button>
             </div>
 
-            <p className="text-sm text-gray-500 mt-3 flex items-center gap-2">
-              <FaArrowRight className="text-gray-400" />
+            <p className='text-sm text-gray-500 mt-3 flex items-center gap-2'>
+              <FaArrowRight className='text-gray-400' />
               Sem pressão... mas seria massa 😄.
             </p>
           </>
@@ -134,22 +132,17 @@ export const App: React.FC = () => {
 
         {/* Sucesso */}
         {accepted && (
-          <div className="flex flex-col items-center gap-4 animate-fade-in">
-            <div className="text-5xl animate-bounce">🎉</div>
+          <div className='flex flex-col items-center gap-4 animate-fade-in'>
+            <div className='text-5xl animate-bounce'>🎉</div>
 
-            <h2 className="text-2xl font-bold text-green-600 flex items-center gap-2">
+            <h2 className='text-2xl font-bold text-green-600 flex items-center gap-2'>
               <FaCheck />
               Boa escolha!
             </h2>
 
-            <p className="text-gray-700 font-medium">
-              Muito bem! Você desbloqueou um encontro 😎
-            </p>
+            <p className='text-gray-700 font-medium'>Muito bem! Você desbloqueou um encontro 😎</p>
 
-            <button
-              onClick={handleBack}
-              className="mt-2 text-sm text-gray-500 underline hover:text-gray-700 transition"
-            >
+            <button onClick={handleBack} className='mt-2 text-sm text-gray-500 underline hover:text-gray-700 transition'>
               Voltar
             </button>
           </div>

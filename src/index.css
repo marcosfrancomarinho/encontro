@@ -1,1 +1,18 @@
 @import 'tailwindcss';
+
+.clip-envelope {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.clip-left {
+  clip-path: polygon(0 100%, 50% 50%, 0 0);
+}
+
+.clip-right {
+  clip-path: polygon(100% 100%, 50% 50%, 100% 0);
+}
+
+.hover\:rotate-x-180:hover {
+  transform: rotateX(180deg);
+  transform-origin: top;
+}
